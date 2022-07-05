@@ -1,5 +1,11 @@
 var express = require("express");
 var multer = require("multer");
+// Simple-git without promise 
+const simpleGit = require('simple-git')();
+// Shelljs package for running shell tasks optional
+// const shellJs = require('shelljs');
+// Simple Git with Promise for handling success and failure
+const simpleGitPromise = require('simple-git/promise')();
 var fs = require("fs");
 
 var app = express();
@@ -9,7 +15,7 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
-var dir;
+var dir,fname;
 
 var storage = multer.diskStorage({
   destination: function (req, file, callback) {
@@ -19,7 +25,9 @@ var storage = multer.diskStorage({
     }
     callback(null, dir);
   },
+  
   filename: function (req, file, callback) {
+    fname = file.originalname;
     callback(null, file.originalname);
   },
 });
@@ -34,14 +42,14 @@ app.post("/upload", function (req, res, next) {
     const userName = "shivsb";
     const password = "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";
     // Set up GitHub url like this so no manual entry of user pass needed
-    const gitHubUrl = `https://${userName}:${password}@github.com/${userName}/${repo}`;
+    // const gitHubUrl = `https://${userName}:${password}@github.com/${userName}/${repo}`;
     // add local git config like username and email
     simpleGit.addConfig("user.email", "2020kuec2005@iiitkota.ac.in");
     simpleGit.addConfig("user.name", "shivsb");
     // Add remore repo url as origin to repo
-    simpleGitPromise.addRemote("origin", gitHubUrl);
+    // simpleGitPromise.addRemote("origin", gitHubUrl);
     // Add all files for commit
-    simpleGitPromise.add("./uploads").then(
+    simpleGitPromise.add(".").then(
       (addSuccess) => {
         console.log(addSuccess);
       },
@@ -67,10 +75,12 @@ app.post("/upload", function (req, res, next) {
         console.log("repo push failed");
       }
     );
-    fs.unlinkSync(dir);
+    console.log(dir+"/" +fname)
+    
     res.end("Upload completed.");
   });
 });
+
 
 app.listen(3000, function (err) {
   if (err) {
