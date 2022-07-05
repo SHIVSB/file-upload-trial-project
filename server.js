@@ -39,8 +39,8 @@ app.post("/upload", function (req, res, next) {
     }
     const repo = "file-upload-trial-project"; //Repo name
     // User name and password of your GitHub
-    const userName = "shivsb";
-    const password = "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";
+    // const userName = "shivsb";
+    // const password = "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";
     // Set up GitHub url like this so no manual entry of user pass needed
     // const gitHubUrl = `https://${userName}:${password}@github.com/${userName}/${repo}`;
     // add local git config like username and email
