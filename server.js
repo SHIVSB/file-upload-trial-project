@@ -58,7 +58,7 @@ app.post("/upload", function (req, res, next) {
       }
     );
     // Commit files as Initial Commit
-    simpleGitPromise.commit("Intial commit by simplegit").then(
+    simpleGitPromise.commit("Uploading photo by simplegit").then(
       (successCommit) => {
         console.log(successCommit);
       },
